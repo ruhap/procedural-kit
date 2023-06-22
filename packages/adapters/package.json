@@ -2,7 +2,7 @@
   "name": "@procedural-kit/adapters",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tsup watch",
+    "dev": "tsup --watch",
     "build": "tsup"
   },
   "devDependencies": {
