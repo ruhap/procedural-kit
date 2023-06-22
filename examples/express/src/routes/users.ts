@@ -30,7 +30,7 @@ export const usersRouter = createRouter()
 
     procedure: async (input) => {
       const user = await db.user.findUniqueOrThrow({
-        where: { ...input },
+        where: input,
       });
       return user;
     },
@@ -48,7 +48,7 @@ export const usersRouter = createRouter()
     }),
     procedure: async (input) => {
       const user = await db.user.create({
-        data: { ...input },
+        data: input,
       });
       return user;
     },
@@ -69,7 +69,7 @@ export const usersRouter = createRouter()
       const { id, ...rest } = input;
       const user = await db.user.update({
         where: { id: input.id },
-        data: { ...rest },
+        data: rest,
       });
       return user;
     },
@@ -86,7 +86,7 @@ export const usersRouter = createRouter()
     }),
     procedure: async (input) => {
       const user = await db.user.delete({
-        where: { ...input },
+        where: input,
       });
       return user;
     },
