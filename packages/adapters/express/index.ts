@@ -36,7 +36,8 @@ export const createRouter = () => {
         const result = await procedure(parsedInput);
         const validatedOutput = await output.parseAsync(result);
 
-        res.status(200).json(validatedOutput);
+        const statusCode = req.method === "post" ? 201 : 200;
+        res.status(statusCode).json(validatedOutput);
       } catch (error) {
         next(error);
       }
