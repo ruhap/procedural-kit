@@ -20,7 +20,7 @@ export const usersRouter = createRouter()
   .get({
     path: "/users/:id",
     input: z.object({
-      id: z.coerce.string(),
+      id: z.number(),
     }),
     output: z.object({
       id: z.number(),
@@ -30,7 +30,7 @@ export const usersRouter = createRouter()
 
     procedure: async (input) => {
       const user = await fakePrisma.findUnique({
-        where: { id: Number(input.id) },
+        where: { id: input.id },
       });
       return user;
     },
@@ -56,7 +56,7 @@ export const usersRouter = createRouter()
   .put({
     path: "/users/:id",
     input: z.object({
-      id: z.coerce.string(),
+      id: z.number(),
       name: z.string(),
       email: z.string().email(),
     }),
@@ -66,8 +66,24 @@ export const usersRouter = createRouter()
       email: z.string().email(),
     }),
     procedure: async (input) => {
-      const user = await fakePrisma.create({
+      const user = await fakePrisma.update({
+        where: { id: input.id },
         data: { name: input.name, email: input.email },
+      });
+      return user;
+    },
+  })
+  .delete({
+    path: "/users/:id",
+    input: z.object({
+      id: z.number(),
+    }),
+    output: z.object({
+      success: z.boolean(),
+    }),
+    procedure: async (input) => {
+      const user = await fakePrisma.delete({
+        where: { id: input.id },
       });
       return user;
     },

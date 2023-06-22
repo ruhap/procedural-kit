@@ -62,6 +62,13 @@ class Database {
     this.db.set(user.id, updatedUser);
     return updatedUser;
   }
+
+  public async delete({ where }: { where: { id: number } }) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const user = this.db.delete(where.id);
+    return { success: true };
+  }
 }
 
 export const fakePrisma = new Database();
