@@ -5,6 +5,11 @@ import { db } from "../database";
 export const usersRouter = createRouter()
   .get({
     path: "/users",
+    input: z.object({
+      id: z.string().optional(),
+      name: z.string().optional(),
+      email: z.string().email().optional(),
+    }),
     output: z.array(
       z.object({
         id: z.string(),
@@ -12,8 +17,8 @@ export const usersRouter = createRouter()
         email: z.string().email(),
       })
     ),
-    procedure: async () => {
-      const users = await db.user.findMany();
+    procedure: async (input) => {
+      const users = await db.user.findMany({ where: input });
       return users;
     },
   })
