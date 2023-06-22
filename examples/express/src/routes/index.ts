@@ -5,5 +5,5 @@ import { todoRouter } from "./todo";
 
 export const routes = Router();
 
-routes.use(exampleRouter);
-routes.use(todoRouter);
+routes.use("/api", exampleRouter);
+routes.use("/api", todoRouter);
