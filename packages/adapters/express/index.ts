@@ -13,7 +13,7 @@ type Route<Input extends z.AnyZodObject, Output extends z.AnyZodObject> = {
 };
 
 export const createRouter = () => {
-  const router = Router();
+  const router: Router = Router();
 
   const addRoute = <
     Input extends z.AnyZodObject,
