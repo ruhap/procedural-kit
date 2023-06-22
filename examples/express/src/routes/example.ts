@@ -5,13 +5,17 @@ import { loggerMiddleware } from "../middlewares";
 export const exampleRouter = createRouter()
   .get({
     path: "/example",
+    input: z.object({
+      foo: z.string().optional(),
+      poo: z.string().optional(),
+    }),
     output: z.array(
       z.object({
         text: z.string(),
       })
     ),
     middlewares: [loggerMiddleware],
-    procedure: () => {
+    procedure: (input) => {
       return [{ text: "Hello World" }, { text: "Hello World" }];
     },
   })
