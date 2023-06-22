@@ -1,5 +1,6 @@
 import z from "zod";
 import { createRouter } from "@procedural-kit/adapters/express";
+import { loggerMiddleware } from "../middlewares";
 
 export const exampleRouter = createRouter()
   .get({
@@ -7,6 +8,7 @@ export const exampleRouter = createRouter()
     output: z.object({
       text: z.string(),
     }),
+    middlewares: [loggerMiddleware],
     procedure: () => {
       return { text: "Hello World" };
     },
