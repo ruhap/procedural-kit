@@ -22,23 +22,27 @@ export const createRouter = () => {
   >(
     route: Route<Input, Output>
   ) => {
-    const { method, path, input, output, procedure, middlewares } = route;
+    const { method, path, input, output, middlewares, procedure } = route;
 
     const routeMiddlewares = middlewares || [];
 
-    router[method](path, ...routeMiddlewares, async (req, res) => {
-      const parsedInput = input
-        ? await input.parseAsync({
-            ...req.params,
-            ...req.body,
-            ...req.query,
-          })
-        : {};
+    router[method](path, ...routeMiddlewares, async (req, res, next) => {
+      try {
+        const parsedInput = input
+          ? await input.parseAsync({
+              ...req.params,
+              ...req.body,
+              ...req.query,
+            })
+          : {};
 
-      const result = await procedure(parsedInput);
-      const validatedOutput = await output.parseAsync(result);
+        const result = await procedure(parsedInput);
+        const validatedOutput = await output.parseAsync(result);
 
-      res.status(200).json(validatedOutput);
+        res.status(200).json(validatedOutput);
+      } catch (error) {
+        next(error);
+      }
     });
   };
 

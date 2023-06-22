@@ -20,9 +20,10 @@ export const exampleRouter = createRouter()
       name: z.string(),
     }),
     procedure: async (input) => {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve({ name: `Hello ${input.name}` });
+          reject(new Error("Error"));
+          // resolve({ name: `Hello ${input.name}` });
         }, 1000);
       });
     },
