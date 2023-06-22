@@ -4,7 +4,7 @@ import { RequestHandler, Router } from "express";
 type MaybePromise<T> = T | Promise<T> | PromiseLike<T>;
 type RequestMethod = "get" | "post" | "put" | "delete";
 
-type Route<Input extends z.AnyZodObject, Output extends z.AnyZodObject> = {
+type Route<Input extends z.AnyZodObject, Output extends z.ZodTypeAny> = {
   method: RequestMethod;
   path: string;
   input?: Input;
@@ -16,10 +16,7 @@ type Route<Input extends z.AnyZodObject, Output extends z.AnyZodObject> = {
 export const createRouter = () => {
   const router: Router = Router();
 
-  const addRoute = <
-    Input extends z.AnyZodObject,
-    Output extends z.AnyZodObject
-  >(
+  const addRoute = <Input extends z.AnyZodObject, Output extends z.ZodTypeAny>(
     route: Route<Input, Output>
   ) => {
     const { method, path, input, output, middlewares, procedure } = route;
@@ -47,25 +44,25 @@ export const createRouter = () => {
   };
 
   const api = {
-    get<Input extends z.AnyZodObject, Output extends z.AnyZodObject>(
+    get<Input extends z.AnyZodObject, Output extends z.ZodTypeAny>(
       route: Omit<Route<Input, Output>, "method">
     ) {
       addRoute({ method: "get", ...route });
       return api;
     },
-    post<Input extends z.AnyZodObject, Output extends z.AnyZodObject>(
+    post<Input extends z.AnyZodObject, Output extends z.ZodTypeAny>(
       route: Omit<Route<Input, Output>, "method">
     ) {
       addRoute({ method: "post", ...route });
       return api;
     },
-    put<Input extends z.AnyZodObject, Output extends z.AnyZodObject>(
+    put<Input extends z.AnyZodObject, Output extends z.ZodTypeAny>(
       route: Omit<Route<Input, Output>, "method">
     ) {
       addRoute({ method: "put", ...route });
       return api;
     },
-    delete<Input extends z.AnyZodObject, Output extends z.AnyZodObject>(
+    delete<Input extends z.AnyZodObject, Output extends z.ZodTypeAny>(
       route: Omit<Route<Input, Output>, "method">
     ) {
       addRoute({ method: "delete", ...route });
