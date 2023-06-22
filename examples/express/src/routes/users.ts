@@ -18,8 +18,7 @@ export const usersRouter = createRouter()
       })
     ),
     procedure: async (input) => {
-      const users = await db.user.findMany({ where: input });
-      return users;
+      return await db.user.findMany({ where: input });
     },
   })
   .get({
@@ -32,12 +31,10 @@ export const usersRouter = createRouter()
       name: z.string(),
       email: z.string().email(),
     }),
-
     procedure: async (input) => {
-      const user = await db.user.findUniqueOrThrow({
+      return await db.user.findUniqueOrThrow({
         where: input,
       });
-      return user;
     },
   })
   .post({
@@ -52,10 +49,9 @@ export const usersRouter = createRouter()
       email: z.string().email(),
     }),
     procedure: async (input) => {
-      const user = await db.user.create({
+      return await db.user.create({
         data: input,
       });
-      return user;
     },
   })
   .put({
@@ -72,11 +68,10 @@ export const usersRouter = createRouter()
     }),
     procedure: async (input) => {
       const { id, ...rest } = input;
-      const user = await db.user.update({
+      return await db.user.update({
         where: { id: input.id },
         data: rest,
       });
-      return user;
     },
   })
   .delete({
@@ -90,10 +85,9 @@ export const usersRouter = createRouter()
       email: z.string().email(),
     }),
     procedure: async (input) => {
-      const user = await db.user.delete({
+      return await db.user.delete({
         where: input,
       });
-      return user;
     },
   })
 
